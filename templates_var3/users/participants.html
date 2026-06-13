@@ -4,8 +4,8 @@
 {% block title %}Участники{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/project_list.css' %}">
-<link rel="stylesheet" href="{% static 'css/participants.css' %}">
+<link href="{% static 'css/project_list.css' %}" rel="stylesheet">
+<link href="{% static 'css/participants.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -24,9 +24,10 @@
         <div class="participant-card">
             <div class="participant-card-header">
                 {% if participant.avatar %}
-                    <img src="{{ participant.avatar.url }}" alt="Аватар участника" class="participant-avatar">
+                <img alt="Аватар участника" class="participant-avatar" src="{{ participant.avatar.url }}">
                 {% else %}
-                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="participant-avatar">
+                <img alt="Аватар по умолчанию" class="participant-avatar"
+                     src="{% static 'images/default-avatar.png' %}">
                 {% endif %}
             </div>
             <div class="participant-info">
@@ -34,7 +35,7 @@
                 <p class="participant-role">{{ participant.about|truncatechars:80 }}</p>
             </div>
             <div class="participant-card-footer">
-                <a href="/users/{{ participant.id }}" class="white-button">
+                <a class="white-button" href="/users/{{ participant.id }}">
                     {% include 'includes/svg/eye.html' %} Посмотреть контакты
                 </a>
             </div>
@@ -44,22 +45,23 @@
     {% if page_obj.has_other_pages %}
     <div class="pagination">
         {% if page_obj.has_previous %}
-        <a href="?{{ query_prefix }}page={{ page_obj.previous_page_number }}" class="page-btn">←</a>
+        <a class="page-btn" href="?{{ query_prefix }}page={{ page_obj.previous_page_number }}">←</a>
         {% endif %}
         {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
         <span class="page-btn active">{{ num }}</span>
         {% else %}
-        <a href="?{{ query_prefix }}page={{ num }}" class="page-btn">{{ num }}</a>
+        <a class="page-btn" href="?{{ query_prefix }}page={{ num }}">{{ num }}</a>
         {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
-        <a href="?{{ query_prefix }}page={{ page_obj.next_page_number }}" class="page-btn">→</a>
+        <a class="page-btn" href="?{{ query_prefix }}page={{ page_obj.next_page_number }}">→</a>
         {% endif %}
     </div>
     {% endif %}
     {% else %}
-    {% include 'includes/empty-project-card.html' with empty_title="Пока нет участников" empty_message="На платформе пока нет зарегистрированных участников" button_link="/users/list" button_text="Обновить" %}
+    {% include 'includes/empty-project-card.html' with empty_title="Пока нет участников" empty_message="На платформе
+    пока нет зарегистрированных участников" button_link="/users/list" button_text="Обновить" %}
     {% endif %}
 </div>
 {% endblock %}

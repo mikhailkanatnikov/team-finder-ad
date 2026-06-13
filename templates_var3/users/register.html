@@ -17,10 +17,16 @@
             <div>{{ form.surname.label_tag }} {{ form.surname }}</div>
         </div>
         {{ form.email.label_tag }} {{ form.email }}
+        {{ form.phone.label_tag }} {{ form.phone }}
+        {{ form.github_url.label_tag }} {{ form.github_url }}
+        {{ form.about.label_tag }} {{ form.about }}
         {{ form.password.label_tag }} {{ form.password }}
+        {{ form.password_confirm.label_tag }} {{ form.password_confirm }}
+
         {% for error in form.errors.values %}
-        <p style="color: red;">{{error}}</p>
+        <p style="color: red;">{{ error }}</p>
         {% endfor %}
+
         <button type="submit">Зарегистрироваться</button>
     </form>
     <p class="auth-link">Уже есть аккаунт? <a href="{% url 'users:login' %}">Войти</a></p>

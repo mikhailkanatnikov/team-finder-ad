@@ -14,26 +14,26 @@
 <div class="profile-container">
     <div class="profile-header">
         <div class="profile-info">
-            {% if user.avatar %}
-                <img src="{{ user.avatar.url }}" alt="Аватар" class="profile-avatar">
+            {% if user_obj.avatar %}
+                <img src="{{ user_obj.avatar.url }}" alt="Аватар" class="profile-avatar">
             {% else %}
                 <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="profile-avatar">
             {% endif %}
             <div class="profile-details">
-                <h2 class="profile-name">{{ user.name }} {{ user.surname }}</h2>
+                <h2 class="profile-name">{{ user_obj.name }} {{ user_obj.surname }}</h2>
                 <p class="profile-description">
-                    {{ user.about|default:"Описание профиля пока не добавлено." }}
+                    {{ user_obj.about|default:"Описание профиля пока не добавлено." }}
                 </p>
                 <div class="profile-contacts">
-                    {% if user.email %}
-                    <span>{% include 'includes/svg/email.html' %} {{ user.email }}</span>
+                    {% if user_obj.email %}
+                    <span>{% include 'includes/svg/email.html' %} {{ user_obj.email }}</span>
                     {% endif %}
-                    {% if user.phone %}
-                    <span>{% include 'includes/svg/phone.html' %} {{ user.phone }}</span>
+                    {% if user_obj.phone %}
+                    <span>{% include 'includes/svg/phone.html' %} {{ user_obj.phone }}</span>
                     {% endif %}
-                    {% if user.github_url %}
+                    {% if user_obj.github_url %}
                     <span>{% include 'includes/svg/github.html' %}
-                        <a href="{{ user.github_url }}" target="_blank">GitHub</a>
+                        <a href="{{ user_obj.github_url }}" target="_blank">GitHub</a>
                     </span>
                     {% endif %}
                 </div>
@@ -42,10 +42,10 @@
         <div class="profile-actions">
             <a href="#"
                class="black-button black-button-share share-button"
-               data-url="/users/{{ user.id }}">
+               data-url="/users/{{ user_obj.id }}">
                 {% include 'includes/svg/share.html' %}
             </a>
-            {% if request.user.id == user.id %}
+            {% if request.user.id == user_obj.id %}
             <a href="/users/edit-profile" class="black-button">
                 {% include 'includes/svg/pen.html' %}
                 Редактировать
@@ -58,10 +58,10 @@
         </div>
     </div>
 
-    <h3>Проекты ({{ user.owned_projects.all|length }})</h3>
+    <h3>Проекты ({{ user_obj.owned_projects.all|length }})</h3>
 
     <div class="collapsed-project-grid">
-        {% for project in user.owned_projects.all %}
+        {% for project in user_obj.owned_projects.all %}
         <div class="collapsed-project-card">
             <div class="collapsed-project-card-header">
                 <h4><a href="/projects/{{ project.id }}">{{ project.name }}</a></h4>
