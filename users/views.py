@@ -1,14 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import RegistrationForm, User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from django.shortcuts import get_object_or_404
-from users.models import User
-from .forms import ProfileForm
 from django.core.paginator import Paginator
+
+from .forms import RegistrationForm, ProfileForm
+from users.models import User
+
+
+def paginate_queryset(request, queryset, per_page=12):
+    paginator = Paginator(queryset, per_page)
+    page_number = request.GET.get("page")
+    return paginator.get_page(page_number)
 
 
 def register(request):
@@ -17,14 +22,16 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("/projects/list/")
+            return redirect("projects:list")
     else:
         form = RegistrationForm()
     return render(request, "users/register.html", {"form": form})
 
 
 def user_detail(request, pk):
-    user = get_object_or_404(User, pk=pk)
+    user = User.objects.filter(pk=pk).first()
+    if not user:
+        return render(request, "404.html", status=404)
     projects = user.owned_projects.all().order_by("-created_at")
     return render(
         request, "users/user-details.html", {"user_obj": user, "projects": projects}
@@ -45,9 +52,7 @@ def edit_profile(request):
 
 def user_list(request):
     users_list = User.objects.all().order_by("id")
-    paginator = Paginator(users_list, 12)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate_queryset(request, users_list)
     return render(request, "users/participants.html", {"page_obj": page_obj})
 
 

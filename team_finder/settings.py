@@ -2,6 +2,11 @@ from pathlib import Path
 
 from decouple import config
 
+# Custom settings
+AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "/projects/list/"
+LOGOUT_REDIRECT_URL = "/projects/list/"
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # TODO: Создать и заполнить .env, ориентируясь на .env_example
@@ -115,6 +120,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-AUTH_USER_MODEL = "users.User"
-LOGIN_REDIRECT_URL = "/projects/list/"
-LOGOUT_REDIRECT_URL = "/projects/list/"
+
+
+
